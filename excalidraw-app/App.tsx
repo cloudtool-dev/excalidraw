@@ -746,6 +746,7 @@ const ExcalidrawWrapper = () => {
         initialData={initialStatePromiseRef.current.promise}
         isCollaborating={isCollaborating}
         onPointerUpdate={collabAPI?.onPointerUpdate}
+        aiEnabled={false}
         UIOptions={{
           canvasActions: {
             toggleTheme: true,
@@ -890,7 +891,7 @@ const ExcalidrawWrapper = () => {
             }
           }}
         />
-        <TTDDialogTrigger />
+        {excalidrawAPI && <TTDDialogTrigger />}
         {isCollaborating && isOffline && (
           <div className="collab-offline-warning">
             {t("alerts.collabOfflineWarning")}
@@ -906,7 +907,6 @@ const ExcalidrawWrapper = () => {
         {excalidrawAPI && !isCollabDisabled && (
           <Collab excalidrawAPI={excalidrawAPI} />
         )}
-
         <ShareDialog
           collabAPI={collabAPI}
           onExportToBackend={async () => {
@@ -923,13 +923,11 @@ const ExcalidrawWrapper = () => {
             }
           }}
         />
-
         {errorMessage && (
           <ErrorDialog onClose={() => setErrorMessage("")}>
             {errorMessage}
           </ErrorDialog>
         )}
-
         <CommandPalette
           customCommandPaletteItems={[
             {
